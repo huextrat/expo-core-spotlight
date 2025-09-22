@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.1.0](https://github.com/huextrat/expo-core-spotlight/compare/v1.0.4...v1.1.0) (2025-09-22)
+
+
+### Features
+
+* release stable version ([8c63d8a](https://github.com/huextrat/expo-core-spotlight/commit/8c63d8a5448edf4580e4523c6ffd0f04fb40b4eb))
+
 ## [1.0.4](https://github.com/huextrat/expo-core-spotlight/compare/v1.0.3...v1.0.4) (2025-09-22)
 
 
