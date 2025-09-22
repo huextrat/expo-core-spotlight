@@ -1,9 +1,9 @@
 {
-  "platforms": ["apple", "android", "web"],
-  "apple": {
-    "modules": ["ExpoCoreSpotlightModule"]
-  },
-  "android": {
-    "modules": ["expo.modules.corespotlight.ExpoCoreSpotlightModule"]
-  }
+	"platforms": ["apple", "android", "web"],
+	"apple": {
+		"modules": ["ExpoCoreSpotlightModule"]
+	},
+	"android": {
+		"modules": ["expo.modules.corespotlight.ExpoCoreSpotlightModule"]
+	}
 }
