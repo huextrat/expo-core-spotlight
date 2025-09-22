@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/huextrat/expo-core-spotlight/compare/v1.0.1...v1.0.2) (2025-09-22)
+
+
+### Bug Fixes
+
+* plugin ([361cb14](https://github.com/huextrat/expo-core-spotlight/commit/361cb14531e0db027ab65821787756c18c2a80fe))
+
 ## [1.0.1](https://github.com/huextrat/expo-core-spotlight/compare/v1.0.0...v1.0.1) (2025-09-22)
 
 
