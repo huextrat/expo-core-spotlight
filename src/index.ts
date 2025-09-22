@@ -1,3 +1,3 @@
-// Reexport the native module. On web, it will be resolved to ExpoCoreSpotlightModule.web.ts
-// and on native platforms to ExpoCoreSpotlightModule.ts
+// Reexport the native module and types
 export { default } from './ExpoCoreSpotlightModule';
+export type { CoreSpotlightItem } from './ExpoCoreSpotlightModule';
