@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/huextrat/expo-core-spotlight/compare/v1.0.3...v1.0.4) (2025-09-22)
+
+
+### Bug Fixes
+
+* add expirationDate ([d3cb7d1](https://github.com/huextrat/expo-core-spotlight/commit/d3cb7d1ddab925c2ce187a711e905466fe20226f))
+
 ## [1.0.3](https://github.com/huextrat/expo-core-spotlight/compare/v1.0.2...v1.0.3) (2025-09-22)
 
 
