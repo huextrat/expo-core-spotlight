@@ -14,34 +14,10 @@ An Expo module that provides access to iOS Core Spotlight functionality, allowin
 
 ## Installation
 
-### 1. Install the package
-
 ```bash
 npm install expo-core-spotlight
 # or
 yarn add expo-core-spotlight
-```
-
-### 2. Configure the plugin
-
-Add the plugin to your `app.json` or `app.config.js`:
-
-```json
-{
-  "expo": {
-    "plugins": [
-      "expo-core-spotlight"
-    ]
-  }
-}
-```
-
-### 3. Rebuild your app
-
-After adding the plugin, you need to rebuild your app:
-
-```bash
-npx expo run:ios
 ```
 
 ## Usage
@@ -142,20 +118,6 @@ Remove all items from a specific domain from the Spotlight index.
 - **iOS**: Full Core Spotlight functionality
 - **Android**: Empty implementations (returns successfully but does nothing)
 - **Web**: Not supported
-
-## Requirements
-
-- iOS 9.0+
-- Expo SDK 49+
-- React Native 0.72+
-
-## Troubleshooting
-
-### Build errors
-
-1. Make sure you've added the plugin to your `app.json`
-2. Run `npx expo run:ios` to rebuild with the plugin
-3. Check that your iOS deployment target is 9.0 or higher
 
 ## License
 
