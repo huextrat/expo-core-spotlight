@@ -11,18 +11,23 @@ const withExpoCoreSpotlight: ConfigPlugin = (config) => {
     
     // Add import for CoreSpotlight if not already present
     if (!appDelegateContent.includes('import CoreSpotlight')) {
-      const importIndex = appDelegateContent.indexOf('import UIKit');
+      const importIndex = appDelegateContent.indexOf('import Expo');
       if (importIndex !== -1) {
         config.modResults.contents = 
           appDelegateContent.slice(0, importIndex) +
-          'import UIKit\nimport CoreSpotlight\n' +
+          'import Expo\nimport CoreSpotlight\n' +
           appDelegateContent.slice(importIndex);
       }
     }
     
-    // Add Core Spotlight handling method
-    const classEndIndex = appDelegateContent.lastIndexOf('}');
-    if (classEndIndex !== -1) {
+    // Find the AppDelegate class and add the Core Spotlight method to it
+    const appDelegateClassRegex = /public class AppDelegate: ExpoAppDelegate \{[\s\S]*?\n\}/;
+    const appDelegateMatch = appDelegateContent.match(appDelegateClassRegex);
+    
+    if (appDelegateMatch) {
+      const appDelegateClass = appDelegateMatch[0];
+      
+      // Add the Core Spotlight method to the AppDelegate class
       const coreSpotlightMethod = `
   // MARK: - Core Spotlight Handling
   func handleCoreSpotlightSearchResult(_ userActivity: NSUserActivity) -> Bool {
@@ -60,49 +65,60 @@ const withExpoCoreSpotlight: ConfigPlugin = (config) => {
     return true
   }`;
       
-      config.modResults.contents = 
-        appDelegateContent.slice(0, classEndIndex) +
-        coreSpotlightMethod + '\n' +
-        appDelegateContent.slice(classEndIndex);
+      // Insert the method before the closing brace of the AppDelegate class
+      const updatedAppDelegateClass = appDelegateClass.replace(/\n\}$/, `${coreSpotlightMethod}\n}`);
+      
+      config.modResults.contents = appDelegateContent.replace(appDelegateClassRegex, updatedAppDelegateClass);
     }
     
-    // Now handle the continue userActivity method
-    const userActivityMethodRegex = /func application\(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping \(\[UIUserActivityRestoring\]\?\) -> Void\) -> Bool/;
+    // Now handle the continue userActivity method in the AppDelegate class
+    const userActivityMethodRegex = /public override func application\(\s*_ application: UIApplication,\s*continue userActivity: NSUserActivity,\s*restorationHandler: @escaping \(\[UIUserActivityRestoring\]\?\) -> Void\s*\) -> Bool \{[\s\S]*?\n\s*\}/;
     
     if (userActivityMethodRegex.test(appDelegateContent)) {
       // Method exists, add Core Spotlight handling to it
       config.modResults.contents = appDelegateContent.replace(
         userActivityMethodRegex,
-        `func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        `public override func application(
+    _ application: UIApplication,
+    continue userActivity: NSUserActivity,
+    restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void
+  ) -> Bool {
     // Handle Core Spotlight search result taps
     if handleCoreSpotlightSearchResult(userActivity) {
       return true
     }
     
-    // Call existing implementation
-    return super.application(application, continue: userActivity, restorationHandler: restorationHandler)
+    let result = RCTLinkingManager.application(application, continue: userActivity, restorationHandler: restorationHandler)
+    return super.application(application, continue: userActivity, restorationHandler: restorationHandler) || result
   }`
       );
     } else {
-      // Method doesn't exist, add it
-      const classEndIndex = appDelegateContent.lastIndexOf('}');
-      if (classEndIndex !== -1) {
+      // Method doesn't exist, add it to the AppDelegate class
+      const appDelegateClassRegex = /public class AppDelegate: ExpoAppDelegate \{[\s\S]*?\n\}/;
+      const appDelegateMatch = appDelegateContent.match(appDelegateClassRegex);
+      
+      if (appDelegateMatch) {
+        const appDelegateClass = appDelegateMatch[0];
         const userActivityMethod = `
-  // MARK: - User Activity Handling
-  func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+  // Universal Links
+  public override func application(
+    _ application: UIApplication,
+    continue userActivity: NSUserActivity,
+    restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void
+  ) -> Bool {
     // Handle Core Spotlight search result taps
     if handleCoreSpotlightSearchResult(userActivity) {
       return true
     }
     
-    // Handle other user activities (like universal links)
-    return super.application(application, continue: userActivity, restorationHandler: restorationHandler)
+    let result = RCTLinkingManager.application(application, continue: userActivity, restorationHandler: restorationHandler)
+    return super.application(application, continue: userActivity, restorationHandler: restorationHandler) || result
   }`;
         
-        config.modResults.contents = 
-          appDelegateContent.slice(0, classEndIndex) +
-          userActivityMethod + '\n' +
-          appDelegateContent.slice(classEndIndex);
+        // Insert the method before the closing brace of the AppDelegate class
+        const updatedAppDelegateClass = appDelegateClass.replace(/\n\}$/, `${userActivityMethod}\n}`);
+        
+        config.modResults.contents = appDelegateContent.replace(appDelegateClassRegex, updatedAppDelegateClass);
       }
     }
     
