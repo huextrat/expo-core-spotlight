@@ -15,6 +15,8 @@ An Expo module that provides access to iOS Core Spotlight functionality, allowin
 ## Installation
 
 ```bash
+npx expo install expo-core-spotlight
+# or
 npm install expo-core-spotlight
 # or
 yarn add expo-core-spotlight
