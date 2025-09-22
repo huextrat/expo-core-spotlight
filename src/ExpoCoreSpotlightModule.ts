@@ -18,13 +18,15 @@ export interface CoreSpotlightItem {
 	/** The thumbnail URL for the item */
 	thumbnailURL?: string;
 	/** The start date for the item */
-	startDate?: Date;
+	startDate?: number;
 	/** The end date for the item */
-	endDate?: Date;
+	endDate?: number;
+	/** The date after which the searchable item should no longer exist. */
+	expirationDate?: number;
 	/** The rating for the item (0.0 to 5.0) */
 	rating?: number;
 	/** The last used date for the item */
-	lastUsedDate?: Date;
+	lastUsedDate?: number;
 	/** The latitude for location-based search */
 	latitude?: number;
 	/** The longitude for location-based search */

@@ -175,7 +175,13 @@ public class ExpoCoreSpotlightModule: Module {
       attributeSet.instantMessageAddresses = instantMessageAddresses
     }
     
-    return CSSearchableItem(uniqueIdentifier: uniqueIdentifier, domainIdentifier: item["domainIdentifier"] as? String, attributeSet: attributeSet)
+    let item = CSSearchableItem(uniqueIdentifier: uniqueIdentifier, domainIdentifier: item["domainIdentifier"] as? String, attributeSet: attributeSet)
+
+    if let expirationDate = item["expirationDate"] as? Double {
+      item.expirationDate = Date(timeIntervalSince1970: expirationDate / 1000)
+    }
+
+    return item
   }
 }
 
