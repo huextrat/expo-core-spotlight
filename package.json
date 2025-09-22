@@ -1,6 +1,6 @@
 {
   "name": "expo-core-spotlight",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Expo module implementing iOS Core Spotlight",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -13,7 +13,8 @@
     "prepublishOnly": "expo-module prepublishOnly",
     "expo-module": "expo-module",
     "open:ios": "xed example/ios",
-    "open:android": "open -a \"Android Studio\" example/android"
+    "open:android": "open -a \"Android Studio\" example/android",
+    "release": "semantic-release"
   },
   "keywords": [
     "react-native",
@@ -28,16 +29,26 @@
   "author": "Hugo EXTRAT <extrat.h@gmail.com> (huextrat)",
   "license": "MIT",
   "homepage": "https://github.com/huextrat/expo-core-spotlight#readme",
-  "dependencies": {},
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
     "@types/react": "~19.1.0",
-    "expo-module-scripts": "^5.0.7",
+    "commitlint": "^19.8.1",
     "expo": "^54.0.7",
-    "react-native": "0.81.4"
+    "expo-module-scripts": "^5.0.7",
+    "react-native": "0.81.4",
+    "semantic-release": "^24.2.9"
   },
   "peerDependencies": {
     "expo": "*",
     "react": "*",
     "react-native": "*"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   }
 }

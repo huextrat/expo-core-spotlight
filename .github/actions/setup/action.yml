@@ -1,0 +1,12 @@
+name: Setup
+description: Setup Node.js and install dependencies
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+
+    - name: Install dependencies
+      run: yarn install --immutable
+      shell: bash
