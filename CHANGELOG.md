@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/huextrat/expo-core-spotlight/compare/v1.0.2...v1.0.3) (2025-09-22)
+
+
+### Bug Fixes
+
+* plugin with deeplink ([f45e1f8](https://github.com/huextrat/expo-core-spotlight/commit/f45e1f882cdef7cfd401040e35919deb4598fc5d))
+
 ## [1.0.2](https://github.com/huextrat/expo-core-spotlight/compare/v1.0.1...v1.0.2) (2025-09-22)
 
 
