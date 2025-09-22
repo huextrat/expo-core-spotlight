@@ -12,12 +12,6 @@ export class CoreSpotlightExample {
       keywords: ['document', 'sample', 'my-app'],
       url: 'myapp://document/1',
       domainIdentifier: 'com.myapp.documents',
-      isEligibleForSearch: true,
-      isEligibleForPrediction: true,
-      userInfo: {
-        documentId: '1',
-        category: 'sample'
-      }
     };
 
     try {

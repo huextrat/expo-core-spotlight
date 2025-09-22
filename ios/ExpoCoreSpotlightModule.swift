@@ -110,15 +110,6 @@ public class ExpoCoreSpotlightModule: Module {
       attributeSet.domainIdentifier = domainIdentifier
     }
     
-    // Set eligibility flags
-    if let isEligibleForSearch = item["isEligibleForSearch"] as? Bool {
-      attributeSet.isEligibleForSearch = isEligibleForSearch
-    }
-    
-    if let isEligibleForPrediction = item["isEligibleForPrediction"] as? Bool {
-      attributeSet.isEligibleForPrediction = isEligibleForPrediction
-    }
-    
     // Set thumbnail data
     if let thumbnailDataString = item["thumbnailData"] as? String,
        let thumbnailData = Data(base64Encoded: thumbnailDataString) {
@@ -144,29 +135,9 @@ public class ExpoCoreSpotlightModule: Module {
       attributeSet.lastUsedDate = Date(timeIntervalSince1970: lastUsedDate / 1000)
     }
     
-    if let creationDate = item["creationDate"] as? Double {
-      attributeSet.creationDate = Date(timeIntervalSince1970: creationDate / 1000)
-    }
-    
-    if let modificationDate = item["modificationDate"] as? Double {
-      attributeSet.modificationDate = Date(timeIntervalSince1970: modificationDate / 1000)
-    }
-    
-    if let expirationDate = item["expirationDate"] as? Double {
-      attributeSet.expirationDate = Date(timeIntervalSince1970: expirationDate / 1000)
-    }
-    
     // Set numeric properties
     if let rating = item["rating"] as? Double {
       attributeSet.rating = NSNumber(value: rating)
-    }
-    
-    if let viewCount = item["viewCount"] as? Int {
-      attributeSet.viewCount = NSNumber(value: viewCount)
-    }
-    
-    if let useCount = item["useCount"] as? Int {
-      attributeSet.useCount = NSNumber(value: useCount)
     }
     
     if let contentRating = item["contentRating"] as? Double {
@@ -190,30 +161,9 @@ public class ExpoCoreSpotlightModule: Module {
       attributeSet.speed = NSNumber(value: speed)
     }
     
-    if let course = item["course"] as? Double {
-      attributeSet.course = NSNumber(value: course)
-    }
-    
     // Set string properties
-    attributeSet.countryCode = item["countryCode"] as? String
-    attributeSet.languageCode = item["languageCode"] as? String
-    attributeSet.phoneNumber = item["phoneNumber"] as? String
-    attributeSet.emailAddress = item["emailAddress"] as? String
-    attributeSet.organizationName = item["organizationName"] as? String
-    attributeSet.departmentName = item["departmentName"] as? String
-    attributeSet.jobTitle = item["jobTitle"] as? String
-    attributeSet.givenName = item["givenName"] as? String
-    attributeSet.familyName = item["familyName"] as? String
-    attributeSet.middleName = item["middleName"] as? String
-    attributeSet.nickname = item["nickname"] as? String
-    attributeSet.namePrefix = item["namePrefix"] as? String
-    attributeSet.nameSuffix = item["nameSuffix"] as? String
     attributeSet.genre = item["genre"] as? String
-    attributeSet.type = item["type"] as? String
-    attributeSet.platform = item["platform"] as? String
     attributeSet.version = item["version"] as? String
-    attributeSet.author = item["author"] as? String
-    attributeSet.editor = item["editor"] as? String
     attributeSet.director = item["director"] as? String
     attributeSet.producer = item["producer"] as? String
     attributeSet.composer = item["composer"] as? String
@@ -223,15 +173,6 @@ public class ExpoCoreSpotlightModule: Module {
     // Set array properties
     if let instantMessageAddresses = item["instantMessageAddresses"] as? [String] {
       attributeSet.instantMessageAddresses = instantMessageAddresses
-    }
-    
-    if let relatedUniqueIdentifiers = item["relatedUniqueIdentifiers"] as? [String] {
-      attributeSet.relatedUniqueIdentifiers = relatedUniqueIdentifiers
-    }
-    
-    // Set user info
-    if let userInfo = item["userInfo"] as? [String: Any] {
-      attributeSet.userInfo = userInfo
     }
     
     return CSSearchableItem(uniqueIdentifier: uniqueIdentifier, domainIdentifier: item["domainIdentifier"] as? String, attributeSet: attributeSet)

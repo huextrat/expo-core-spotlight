@@ -63,12 +63,6 @@ const item: CoreSpotlightItem = {
   keywords: ['document', 'important', 'my-app'],
   url: 'myapp://document/1',
   domainIdentifier: 'com.myapp.documents',
-  isEligibleForSearch: true,
-  isEligibleForPrediction: true,
-  userInfo: {
-    documentId: '1',
-    category: 'important'
-  }
 };
 
 // Add the item to Spotlight
@@ -89,7 +83,6 @@ const items: CoreSpotlightItem[] = [
     keywords: ['document', 'first'],
     url: 'myapp://document/1',
     domainIdentifier: 'com.myapp.documents',
-    creationDate: new Date(),
     rating: 4.5
   },
   {
@@ -99,7 +92,6 @@ const items: CoreSpotlightItem[] = [
     keywords: ['document', 'second'],
     url: 'myapp://document/2',
     domainIdentifier: 'com.myapp.documents',
-    creationDate: new Date(),
     rating: 3.8
   }
 ];
@@ -145,86 +137,6 @@ Remove all items from the Spotlight index.
 #### `removeAllItemsFromDomain(domainIdentifier: string): Promise<void>`
 Remove all items from a specific domain from the Spotlight index.
 
-### CoreSpotlightItem Interface
-
-```typescript
-interface CoreSpotlightItem {
-  // Required
-  uniqueIdentifier: string;
-  title: string;
-  
-  // Optional basic properties
-  contentDescription?: string;
-  keywords?: string[];
-  url?: string;
-  userInfo?: Record<string, any>;
-  domainIdentifier?: string;
-  isEligibleForSearch?: boolean;
-  isEligibleForPrediction?: boolean;
-  
-  // Media
-  thumbnailData?: string; // base64 encoded
-  thumbnailURL?: string;
-  
-  // Dates
-  startDate?: Date;
-  endDate?: Date;
-  lastUsedDate?: Date;
-  creationDate?: Date;
-  modificationDate?: Date;
-  expirationDate?: Date;
-  
-  // Numeric properties
-  rating?: number; // 0.0 to 5.0
-  viewCount?: number;
-  useCount?: number;
-  contentRating?: number;
-  
-  // Location
-  latitude?: number;
-  longitude?: number;
-  altitude?: number;
-  speed?: number;
-  course?: number;
-  
-  // Contact information
-  phoneNumber?: string;
-  emailAddress?: string;
-  organizationName?: string;
-  departmentName?: string;
-  jobTitle?: string;
-  
-  // Personal information
-  givenName?: string;
-  familyName?: string;
-  middleName?: string;
-  nickname?: string;
-  namePrefix?: string;
-  nameSuffix?: string;
-  
-  // Arrays
-  instantMessageAddresses?: string[];
-  relatedUniqueIdentifiers?: string[];
-  
-  // Content metadata
-  genre?: string;
-  type?: string;
-  platform?: string;
-  version?: string;
-  author?: string;
-  editor?: string;
-  director?: string;
-  producer?: string;
-  composer?: string;
-  artist?: string;
-  album?: string;
-  
-  // Localization
-  countryCode?: string;
-  languageCode?: string;
-}
-```
-
 ## Platform Support
 
 - **iOS**: Full Core Spotlight functionality
@@ -238,14 +150,6 @@ interface CoreSpotlightItem {
 - React Native 0.72+
 
 ## Troubleshooting
-
-### Items not appearing in Spotlight search
-
-1. Make sure you've rebuilt your app after adding the plugin
-2. Check that `isEligibleForSearch` is set to `true` (default)
-3. Ensure the `uniqueIdentifier` is unique
-4. Wait a few minutes for Spotlight to index the items
-5. Try searching in Settings > Siri & Search > Search in Apps
 
 ### Build errors
 
