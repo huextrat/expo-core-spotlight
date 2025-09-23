@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/huextrat/expo-core-spotlight/compare/v1.1.0...v1.1.1) (2025-09-23)
+
+
+### Bug Fixes
+
+* guard url on deep link ([921b6f8](https://github.com/huextrat/expo-core-spotlight/commit/921b6f89beaf6f75a28e5bf51531fc3a1a931634))
+
 # [1.1.0](https://github.com/huextrat/expo-core-spotlight/compare/v1.0.4...v1.1.0) (2025-09-22)
 
 
