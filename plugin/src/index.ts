@@ -32,9 +32,13 @@ const withExpoCoreSpotlight: ConfigPlugin = (config) => {
       guard let uniqueIdentifier = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String else {
         return false
       }
+
+	  guard let url = URL(string: uniqueIdentifier) else {
+		return false
+	  }
       
       DispatchQueue.main.async {
-        UIApplication.shared.open(URL(string: uniqueIdentifier)!, options: [:])
+        UIApplication.shared.open(url, options: [:])
       }
       
       return true
