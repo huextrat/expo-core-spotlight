@@ -11,7 +11,7 @@
   <a href="https://www.npmjs.com/package/expo-core-spotlight">
     <img alt="npm version" src="https://img.shields.io/npm/v/expo-core-spotlight.svg?style=for-the-badge" />
   </a>
-  <a href="https://www.npmjs.com/package/react-native-ios-translate-sheet">
+  <a href="https://www.npmjs.com/package/expo-core-spotlight">
     <img alt="npm downloads" src="https://img.shields.io/npm/dm/expo-core-spotlight.svg?style=for-the-badge" />
   </a>
 </p>
