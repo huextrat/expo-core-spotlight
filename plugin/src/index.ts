@@ -21,7 +21,7 @@ const withExpoCoreSpotlight: ConfigPlugin = (config) => {
 			);
 		}
 
-		if (!modifiedContent.includes("handleCoreSpotlightSearchResult")) {
+		if (!modifiedContent.includes("func handleCoreSpotlightSearchResult")) {
 			const coreSpotlightMethod = `
   // MARK: - Core Spotlight Handling
   func handleCoreSpotlightSearchResult(_ userActivity: NSUserActivity) -> Bool {
@@ -45,7 +45,7 @@ const withExpoCoreSpotlight: ConfigPlugin = (config) => {
     }`;
 
 			modifiedContent = modifiedContent.replace(
-				/(public class AppDelegate: ExpoAppDelegate \{[\s\S]*?)\n\}/,
+				/(class AppDelegate[^{]*\{[\s\S]*?)\n\}/,
 				`$1${coreSpotlightMethod}\n}`,
 			);
 		}

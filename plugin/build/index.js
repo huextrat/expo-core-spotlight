@@ -13,7 +13,7 @@ const withExpoCoreSpotlight = (config) => {
         if (!modifiedContent.includes("import CoreSpotlight")) {
             modifiedContent = modifiedContent.replace("import Expo", "import Expo\nimport CoreSpotlight\nimport MobileCoreServices");
         }
-        if (!modifiedContent.includes("handleCoreSpotlightSearchResult")) {
+        if (!modifiedContent.includes("func handleCoreSpotlightSearchResult")) {
             const coreSpotlightMethod = `
   // MARK: - Core Spotlight Handling
   func handleCoreSpotlightSearchResult(_ userActivity: NSUserActivity) -> Bool {
@@ -35,7 +35,7 @@ const withExpoCoreSpotlight = (config) => {
       
       return true
     }`;
-            modifiedContent = modifiedContent.replace(/(public class AppDelegate: ExpoAppDelegate \{[\s\S]*?)\n\}/, `$1${coreSpotlightMethod}\n}`);
+            modifiedContent = modifiedContent.replace(/(class AppDelegate[^{]*\{[\s\S]*?)\n\}/, `$1${coreSpotlightMethod}\n}`);
         }
         if (modifiedContent.includes("continue userActivity") &&
             !modifiedContent.includes("handleCoreSpotlightSearchResult(userActivity)")) {
