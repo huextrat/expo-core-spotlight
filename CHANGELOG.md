@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.2.0](https://github.com/huextrat/expo-core-spotlight/compare/v1.1.2...v1.2.0) (2026-02-26)
+
+
+### Features
+
+* expo 55 support ([71f175c](https://github.com/huextrat/expo-core-spotlight/commit/71f175c7416ebe4097de7ca28c2c13304e4149ee))
+
 ## [1.1.2](https://github.com/huextrat/expo-core-spotlight/compare/v1.1.1...v1.1.2) (2025-12-15)
 
 
