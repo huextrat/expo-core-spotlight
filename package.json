@@ -31,6 +31,10 @@
 	"author": "Hugo EXTRAT <extrat.h@gmail.com> (huextrat)",
 	"license": "MIT",
 	"homepage": "https://github.com/huextrat/expo-core-spotlight#readme",
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
+	},
 	"devDependencies": {
 		"@biomejs/biome": "2.4.5",
 		"@commitlint/cli": "20.4.2",
