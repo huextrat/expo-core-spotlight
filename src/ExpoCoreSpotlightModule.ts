@@ -1,6 +1,6 @@
 import { NativeModule, requireNativeModule } from 'expo';
 
-import { CoreSpotlightItem } from './ExpoCoreSpotlight.types';
+import { type CoreSpotlightItem } from './ExpoCoreSpotlight.types';
 
 declare class ExpoCoreSpotlightModule extends NativeModule {
   /** Add or update an item in the Spotlight index */

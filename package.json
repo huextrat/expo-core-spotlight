@@ -44,18 +44,15 @@
     "eslint": "~9.39.4",
     "eslint-config-universe": "^15.0.3",
     "expo": "^56.0.3",
+    "expo-module-scripts": "^56.0.2",
     "jest": "^30.4.2",
-    "jest-expo": "~56.0.4",
     "prettier": "^3.0.0",
     "react-native": "0.85.3",
     "semantic-release": "^25.0.3",
     "typescript": "^6.0.3"
   },
   "jest": {
-    "preset": "jest-expo",
-    "roots": [
-      "<rootDir>/src"
-    ]
+    "preset": "expo-module-scripts"
   },
   "peerDependencies": {
     "expo": "*",
