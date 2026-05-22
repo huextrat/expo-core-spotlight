@@ -1,8 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const config_plugins_1 = require("@expo/config-plugins");
+import { withAppDelegate } from "@expo/config-plugins";
 const withExpoCoreSpotlight = (config) => {
-    return (0, config_plugins_1.withAppDelegate)(config, (config) => {
+    return withAppDelegate(config, (config) => {
         const appDelegateContent = config.modResults.contents;
         if (appDelegateContent.includes("import CoreSpotlight") &&
             appDelegateContent.includes("handleCoreSpotlightSearchResult") &&
@@ -50,4 +48,5 @@ const withExpoCoreSpotlight = (config) => {
         return config;
     });
 };
-exports.default = withExpoCoreSpotlight;
+export default withExpoCoreSpotlight;
+//# sourceMappingURL=index.js.map
