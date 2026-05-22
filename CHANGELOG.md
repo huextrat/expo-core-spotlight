@@ -1,5 +1,17 @@
 # Changelog
 
+# [2.0.0](https://github.com/huextrat/expo-core-spotlight/compare/v1.2.0...v2.0.0) (2026-05-22)
+
+
+### Features
+
+* release Expo 56 support ([2dd235f](https://github.com/huextrat/expo-core-spotlight/commit/2dd235f9e03853eb83eaefc1c7324cc9247b0e3b))
+
+
+### BREAKING CHANGES
+
+* minimum iOS 16.4
+
 # [1.2.0](https://github.com/huextrat/expo-core-spotlight/compare/v1.1.2...v1.2.0) (2026-02-26)
 
 
