@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/huextrat/expo-core-spotlight/compare/v2.0.0...v2.0.1) (2026-05-22)
+
+
+### Bug Fixes
+
+* migrate to expo-module-scripts tooling ([f7c4f8c](https://github.com/huextrat/expo-core-spotlight/commit/f7c4f8c7c2015c572f0f892dca93eae6396890a8))
+
 # [2.0.0](https://github.com/huextrat/expo-core-spotlight/compare/v1.2.0...v2.0.0) (2026-05-22)
 
 
