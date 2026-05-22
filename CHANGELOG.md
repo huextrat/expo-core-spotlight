@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.2](https://github.com/huextrat/expo-core-spotlight/compare/v2.0.1...v2.0.2) (2026-05-22)
+
+
+### Bug Fixes
+
+* android compatibility ([8118fa9](https://github.com/huextrat/expo-core-spotlight/commit/8118fa9493ae0f09880f699e37b5b32c32986ff2))
+
 ## [2.0.1](https://github.com/huextrat/expo-core-spotlight/compare/v2.0.0...v2.0.1) (2026-05-22)
 
 
