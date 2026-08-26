@@ -34,7 +34,7 @@
     "@babel/core": "^7.26.0",
     "@commitlint/cli": "^21.0.1",
     "@commitlint/config-conventional": "^21.0.1",
-    "@react-native/jest-preset": "^0.85.3",
+    "@react-native/jest-preset": "^0.87.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@types/jest": "^30.0.0",
