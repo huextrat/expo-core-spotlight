@@ -1,7 +1,7 @@
 import CoreSpotlight
 import ExpoModulesCore
 import Foundation
-import MobileCoreServices
+import UniformTypeIdentifiers
 
 public class ExpoCoreSpotlightModule: Module {
     public func definition() -> ModuleDefinition {
@@ -13,89 +13,71 @@ public class ExpoCoreSpotlightModule: Module {
         }
 
         // Add or update a single item
-        AsyncFunction("indexItem") { (item: [String: Any]) -> Void in
-            guard let uniqueIdentifier = item["uniqueIdentifier"] as? String,
-                let title = item["title"] as? String
-            else {
-                throw CoreSpotlightError.invalidItem("uniqueIdentifier and title are required")
-            }
-
-            let searchableItem = try self.createSearchableItem(from: item)
-            CSSearchableIndex.default().indexSearchableItems([searchableItem]) { error in
-                if let error = error {
-                    print("Error indexing item: \(error.localizedDescription)")
-                }
-            }
+        AsyncFunction("indexItem") { (item: [String: Any]) async throws -> Void in
+            let searchableItem = try Self.createSearchableItem(from: item)
+            try await Self.index([searchableItem])
         }
 
         // Add or update multiple items
-        AsyncFunction("indexItems") { (items: [[String: Any]]) -> Void in
-            let searchableItems = try items.map { item in
-                guard let uniqueIdentifier = item["uniqueIdentifier"] as? String,
-                    let title = item["title"] as? String
-                else {
-                    throw CoreSpotlightError.invalidItem("uniqueIdentifier and title are required")
-                }
-                return try self.createSearchableItem(from: item)
-            }
-
-            CSSearchableIndex.default().indexSearchableItems(searchableItems) { error in
-                if let error = error {
-                    print("Error indexing items: \(error.localizedDescription)")
-                }
-            }
+        AsyncFunction("indexItems") { (items: [[String: Any]]) async throws -> Void in
+            let searchableItems = try items.map { try Self.createSearchableItem(from: $0) }
+            try await Self.index(searchableItems)
         }
 
         // Remove a single item
-        AsyncFunction("removeItem") { (uniqueIdentifier: String) -> Void in
-            CSSearchableIndex.default().deleteSearchableItems(withIdentifiers: [uniqueIdentifier]) {
-                error in
-                if let error = error {
-                    print("Error removing item: \(error.localizedDescription)")
-                }
+        AsyncFunction("removeItem") { (uniqueIdentifier: String) async throws -> Void in
+            try await Self.remove {
+                try await $0.deleteSearchableItems(withIdentifiers: [uniqueIdentifier])
             }
         }
 
         // Remove multiple items
-        AsyncFunction("removeItems") { (uniqueIdentifiers: [String]) -> Void in
-            CSSearchableIndex.default().deleteSearchableItems(withIdentifiers: uniqueIdentifiers) {
-                error in
-                if let error = error {
-                    print("Error removing items: \(error.localizedDescription)")
-                }
+        AsyncFunction("removeItems") { (uniqueIdentifiers: [String]) async throws -> Void in
+            try await Self.remove {
+                try await $0.deleteSearchableItems(withIdentifiers: uniqueIdentifiers)
             }
         }
 
         // Remove all items
-        AsyncFunction("removeAllItems") {
-            CSSearchableIndex.default().deleteAllSearchableItems { error in
-                if let error = error {
-                    print("Error removing all items: \(error.localizedDescription)")
-                }
-            }
+        AsyncFunction("removeAllItems") { () async throws -> Void in
+            try await Self.remove { try await $0.deleteAllSearchableItems() }
         }
 
         // Remove all items from a domain
-        AsyncFunction("removeAllItemsFromDomain") { (domainIdentifier: String) -> Void in
-            CSSearchableIndex.default().deleteSearchableItems(withDomainIdentifiers: [
-                domainIdentifier
-            ]) { error in
-                if let error = error {
-                    print("Error removing items from domain: \(error.localizedDescription)")
-                }
+        AsyncFunction("removeAllItemsFromDomain") { (domainIdentifier: String) async throws -> Void in
+            try await Self.remove {
+                try await $0.deleteSearchableItems(withDomainIdentifiers: [domainIdentifier])
             }
         }
     }
 
+    // Resolves once Core Spotlight has indexed the items, rejects if it fails
+    private static func index(_ items: [CSSearchableItem]) async throws {
+        do {
+            try await CSSearchableIndex.default().indexSearchableItems(items)
+        } catch {
+            throw IndexingFailedException().causedBy(error)
+        }
+    }
+
+    // Resolves once Core Spotlight has removed the items, rejects if it fails
+    private static func remove(_ removal: (CSSearchableIndex) async throws -> Void) async throws {
+        do {
+            try await removal(CSSearchableIndex.default())
+        } catch {
+            throw RemovalFailedException().causedBy(error)
+        }
+    }
+
     // Helper function to create CSSearchableItem from dictionary
-    private func createSearchableItem(from item: [String: Any]) throws -> CSSearchableItem {
+    private static func createSearchableItem(from item: [String: Any]) throws -> CSSearchableItem {
         guard let uniqueIdentifier = item["uniqueIdentifier"] as? String,
             let title = item["title"] as? String
         else {
-            throw CoreSpotlightError.invalidItem("uniqueIdentifier and title are required")
+            throw InvalidItemException()
         }
 
-        let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeText as String)
+        let attributeSet = CSSearchableItemAttributeSet(contentType: UTType.text)
 
         // Set basic properties
         attributeSet.title = title
@@ -197,9 +179,20 @@ public class ExpoCoreSpotlightModule: Module {
     }
 }
 
-// Custom error types
-enum CoreSpotlightError: Error {
-    case invalidItem(String)
-    case indexingFailed(String)
-    case removalFailed(String)
+internal final class InvalidItemException: Exception, @unchecked Sendable {
+    override var reason: String {
+        "uniqueIdentifier and title are required"
+    }
+}
+
+internal final class IndexingFailedException: Exception, @unchecked Sendable {
+    override var reason: String {
+        "Failed to index items in Spotlight"
+    }
+}
+
+internal final class RemovalFailedException: Exception, @unchecked Sendable {
+    override var reason: String {
+        "Failed to remove items from Spotlight"
+    }
 }

@@ -48,45 +48,28 @@ pnpm add expo-core-spotlight
 npx expo install expo-core-spotlight
 ```
 
+## 🧩 Compatibility
+
+| expo-core-spotlight | Expo SDK | Minimum iOS | Config plugin |
+|---|---|---|---|
+| **3.x** | 58+ | 16.4 | None |
+| **2.x** | 56 – 57 | 16.4 | Required |
+| **1.2.x** | 55 | 15.1 | Required |
+| **1.0.x – 1.1.x** | 54 | 15.1 | Required |
+
+On Expo SDK 57 or older, install the matching major version, for example `npm install expo-core-spotlight@^2`, and follow the README of that version.
+
 ## ⚙️ Configuration
 
-### 1. Add the Plugin to Your App Config
+No config plugin is needed: Spotlight search result taps are handled natively by the module, through an Expo AppDelegate subscriber. This works with the scene-based life cycle used by Expo SDK 58+.
 
-Add the plugin to your `app.config.js` or `app.config.ts`:
+### ⬆️ Migrating from 2.x
 
-<details>
-<summary><strong>📄 app.config.js</strong></summary>
+1. Upgrade your app to Expo SDK 58.
+2. Remove `'expo-core-spotlight'` from the `plugins` array of your app config: 3.x no longer ships a config plugin. If you keep it, Expo CLI fails with `No "app.plugin.{js,cjs,mjs,ts,cts,mts}" file was found in "expo-core-spotlight"`.
+3. Run `npx expo prebuild --clean` so the native project is regenerated without the code 2.x injected into your `AppDelegate`.
 
-```javascript
-export default {
-  // ... your existing config
-  plugins: [
-    // ... your existing plugins
-    'expo-core-spotlight',
-  ],
-};
-```
-
-</details>
-
-<details>
-<summary><strong>📄 app.config.ts</strong></summary>
-
-```typescript
-import { ConfigContext } from 'expo/config';
-
-export default ({ config }: ConfigContext) => ({
-  ...config,
-  plugins: [
-    ...(config.plugins || []),
-    'expo-core-spotlight',
-  ],
-});
-```
-
-</details>
-
-### 2. 🔗 Deeplink Configuration
+### 🔗 Deeplink Configuration
 
 > **⚠️ Important:** The library uses the `uniqueIdentifier` as the deeplink URL.
 
@@ -106,6 +89,8 @@ You must include your app's URL scheme as a prefix in the `uniqueIdentifier` whe
 > **In the future, this should be changed so that the `url` property is used as the deeplink instead of `uniqueIdentifier`.**  
 > This will better align with iOS Core Spotlight best practices and make the API more intuitive.  
 > For now, always include your app's URL scheme as a prefix in the `uniqueIdentifier`.
+
+> **ℹ️ Cold start:** When a search result launches your app, the deeplink is delivered through `expo-linking` (`Linking.useLinkingURL()` / `Linking.getLinkingURL()`), which Expo Router uses. React Native's `Linking.getInitialURL()` does not receive it.
 
 
 ## 📖 Usage
@@ -212,6 +197,26 @@ Remove all items from a specific domain from the Spotlight index.
 </tr>
 </table>
 
+### ⚠️ Errors
+
+On iOS, every method resolves once Core Spotlight has finished the operation, and rejects if it fails. Use `error.code` to tell the failures apart:
+
+| Code | When |
+|---|---|
+| `ERR_INVALID_ITEM` | An item has no `uniqueIdentifier` or `title` |
+| `ERR_INDEXING_FAILED` | Core Spotlight could not index the items |
+| `ERR_REMOVAL_FAILED` | Core Spotlight could not remove the items |
+
+```typescript
+try {
+  await ExpoCoreSpotlight.indexItem(item);
+} catch (error) {
+  if ((error as { code?: string }).code === 'ERR_INDEXING_FAILED') {
+    // Retry later, or report the error
+  }
+}
+```
+
 ---
 
 ## 📱 Platform Support
@@ -267,14 +272,13 @@ uniqueIdentifier: 'document-1'
 </details>
 
 <details>
-<summary><strong>⚙️ Plugin not working</strong></summary>
+<summary><strong>⚙️ Taps open the app but not the deeplink</strong></summary>
 
-**Problem**: Plugin changes aren't applied.
+**Problem**: Tapping a search result opens your app on its current screen.
 
-**Solution**: 
-1. Ensure you've added the plugin to your `app.config.js/ts`
-2. Run `npx expo prebuild` to regenerate native code
-3. Clean and rebuild your project
+**Solutions**:
+1. If you upgraded from 2.x, remove the plugin from your app config and run `npx expo prebuild --clean`
+2. If you maintain your native project yourself, make sure `AppDelegate` subclasses `ExpoAppDelegate` and `SceneDelegate` subclasses `ExpoAppSceneDelegate`, as in the Expo SDK 58 template: the module relies on them to receive Spotlight user activities
 
 </details>
 
