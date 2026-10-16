@@ -2,6 +2,11 @@
 {
   "extends": "expo-module-scripts/tsconfig.base",
   "compilerOptions": {
+    // Resolve Expo packages to their published typings instead of their monorepo sources
+    "customConditions": ["react-native-legacy-deep-imports", "react-native-unstable-internals"],
+    // `prepare` deletes the build output, so an incremental cache would make tsc skip emitting it
+    "incremental": false,
+    "tsBuildInfoFile": null,
     "rootDir": "./src",
     "outDir": "./build",
   },
