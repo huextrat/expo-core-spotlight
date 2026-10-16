@@ -1,5 +1,21 @@
 # Changelog
 
+# [3.0.0](https://github.com/huextrat/expo-core-spotlight/compare/v2.0.2...v3.0.0) (2026-10-16)
+
+
+### Features
+
+* support Expo SDK 58 ([#38](https://github.com/huextrat/expo-core-spotlight/issues/38)) ([ecc15eb](https://github.com/huextrat/expo-core-spotlight/commit/ecc15ebf92e61cdacec8755605540685d1c257d8))
+
+
+### BREAKING CHANGES
+
+* the config plugin is removed and Expo SDK 58 is required.
+Remove `expo-core-spotlight` from `plugins` and run `npx expo prebuild --clean`.
+Indexing and removal promises can now reject.
+
+Co-authored-by: Claude Opus 5.5 <noreply@anthropic.com>
+
 ## [2.0.2](https://github.com/huextrat/expo-core-spotlight/compare/v2.0.1...v2.0.2) (2026-05-22)
 
 
